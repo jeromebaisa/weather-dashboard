@@ -1,0 +1,37 @@
+
+name: Build Weather Dashboard
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Make Gradle Wrapper executable
+        run: chmod +x gradlew
+
+      - name: Build and test
+        run: ./gradlew build
+
+      - name: Build fat JAR
+        run: ./gradlew shadowJar
+
+      - name: Upload fat JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: weather-dashboard-all
+          path: build/libs/weather-dashboard-all.jar
+          if-no-files-found: error

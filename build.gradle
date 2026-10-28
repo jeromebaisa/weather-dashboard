@@ -1,0 +1,47 @@
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'com.gradleup.shadow' version '8.3.10'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+application {
+    mainClass = 'edu.example.weather.WeatherLauncher'
+}
+
+javafx {
+    version = '21.0.2'
+    modules = ['javafx.controls']
+}
+
+dependencies {
+    //Jackson: Reads JSON weather files
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
+
+    //Apache Commons Lang: Additional third-party library
+    implementation 'org.apache.commons:commons-lang3:3.17.0'
+
+    //JUnit 5: Automated testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.named('shadowJar') {
+    archiveFileName = 'weather-dashboard-all.jar'
+    mergeServiceFiles()
+}

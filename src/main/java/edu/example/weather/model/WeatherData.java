@@ -1,0 +1,1 @@
+package edu.example.weather.model; public class WeatherData { public String city; public int temperature; public int humidity; public String condition; }
